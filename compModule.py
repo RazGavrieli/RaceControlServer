@@ -1,7 +1,7 @@
-import pika
+import pika, threading
 from objects.competitor import competitor
 
-class compMod:
+class compMod(threading.Thread):
     """
     The `compMod` class is responsible for receiving and processing GPS and timing data for competitors in a race.
     It manages a dictionary of competitor object, which is getting updated with the data received.
@@ -28,9 +28,14 @@ class compMod:
         """
         Constructor method that initializes the object and starts listening to the GPS and timing queues.
         """
+        threading.Thread.__init__(self)
+
         self.GPSchannel.basic_consume(queue=self.gpsQueueName, on_message_callback=self.gps_callback, auto_ack=True)
         self.TIMINGchannel.basic_consume(queue=self.timingQueueName, on_message_callback=self.timing_callback, auto_ack=True)
 
+
+
+    def run(self):
         print(' [*] Waiting for TRACK & GPS messages. To exit press CTRL+C')
         self.GPSchannel.start_consuming()
         self.TIMINGchannel.start_consuming()

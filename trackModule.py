@@ -1,4 +1,4 @@
-import pika
+import pika, threading
 from objects.track import track
 
 from enum import Enum
@@ -9,7 +9,7 @@ class TrackCommand(Enum):
     SET_SECTOR = 77777
     MARSHEL_POST = 66666
 
-class trackMod:
+class trackMod(threading.Thread):
     """
     This class provides a way to receive GPS data and update a `track` object accordingly.
 
@@ -25,7 +25,10 @@ class trackMod:
     TRACKchannel.queue_declare(queue=trackQueueName)
 
     def __init__(self) -> None:
+        threading.Thread.__init__(self)
         self.TRACKchannel.basic_consume(queue=self.trackQueueName, on_message_callback=self.gps_callback, auto_ack=True)
+
+    def run(self):
         print(' [*] Waiting for TRACK messages. To exit press CTRL+C')
         self.TRACKchannel.start_consuming()
 
