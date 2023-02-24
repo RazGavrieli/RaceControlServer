@@ -25,8 +25,8 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
 
         # Forward the request body to RabbitMQ
         data = post_data.decode('utf-8')
-        id = eval(data)['id']
-        if id > 9999:
+        id = str(eval(data)['id'])
+        if id.isnumeric() and int(id) > 9999:
             trackChannel.queue_declare(queue='TRACK')
             trackChannel.basic_publish(exchange='', routing_key='TRACK', body=data)
         else:
