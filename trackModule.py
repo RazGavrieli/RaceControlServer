@@ -43,3 +43,5 @@ class trackMod:
             self.RaceTrack.pitsList.append(data['latitude'], data['longitude'])
         elif data['id'] == TrackCommand.MARSHEL_POST.value:
             self.RaceTrack.marshelList.append(data['latitude'], data['longitude'])
+            
+trackMod()

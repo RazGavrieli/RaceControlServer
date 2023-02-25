@@ -31,8 +31,9 @@ class compMod:
         self.GPSchannel.basic_consume(queue=self.gpsQueueName, on_message_callback=self.gps_callback, auto_ack=True)
         self.TIMINGchannel.basic_consume(queue=self.timingQueueName, on_message_callback=self.timing_callback, auto_ack=True)
 
-        print(' [*] Waiting for TRACK & GPS messages. To exit press CTRL+C')
+        print(' [*] Waiting for GPS messages. To exit press CTRL+C')
         self.GPSchannel.start_consuming()
+        print(' [*] Waiting for TIMING messages. To exit press CTRL+C')
         self.TIMINGchannel.start_consuming()
 
     def gps_callback(self, ch, method, properties, body):
@@ -60,4 +61,11 @@ class compMod:
         data = eval(body.decode())
         if data['id'] in self.competitors:
             self.competitors[data['id']].lastKnownLap = data['laps']
-            self.competitors
+            self.competitors[data['id']].lastKnownPos = data['pos']
+        else:
+            newCompetitor = competitor(data['id'])
+            newCompetitor.lastKnownLap = data['laps']
+            newCompetitor.lastKnownPos = data['pos']
+            self.competitors[data['id']] = newCompetitor
+
+compMod()
