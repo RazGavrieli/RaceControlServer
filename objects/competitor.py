@@ -20,7 +20,8 @@ class competitor:
     
     lastknownGPS = tuple()
     lastKnownSpeed = float()
-    
+    lastKnownGforce = float()
+
     CalculatedLivePos = str()
     CalculatedTimeGap = float()
     

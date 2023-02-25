@@ -34,14 +34,14 @@ class trackMod:
         A callback function that is called whenever a new message is received in the `track` queue.
         It updates the `RaceTrack` object accordingly based on the message content.
         """
-        data = body.encode()
+        data = eval(body.decode())
         if data['id'] == TrackCommand.CREATE_TRACK.value:
-            self.RaceTrack.trackList.append(data['latitude'], data['longitude'])
+            self.RaceTrack.trackList.append((data['latitude'], data['longitude']))
         elif data['id'] == TrackCommand.SET_SECTOR.value:
-            self.RaceTrack.sectorsList.append(data['latitude'], data['longitude'])
+            self.RaceTrack.sectorsList.append((data['latitude'], data['longitude']))
         elif data['id'] == TrackCommand.SET_PITS.value:
-            self.RaceTrack.pitsList.append(data['latitude'], data['longitude'])
+            self.RaceTrack.pitsList.append((data['latitude'], data['longitude']))
         elif data['id'] == TrackCommand.MARSHEL_POST.value:
-            self.RaceTrack.marshelList.append(data['latitude'], data['longitude'])
-            
+            self.RaceTrack.marshelList.append((data['latitude'], data['longitude']))
+        print(self.RaceTrack)
 trackMod()
