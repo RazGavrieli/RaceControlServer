@@ -1,3 +1,5 @@
+import random
+
 class competitor:
     """
     Represents a competitor in a race.
@@ -22,11 +24,23 @@ class competitor:
     lastKnownSpeed = float()
     lastKnownGforce = float()
 
+    lastKnownPitEntry = float()
+    lastKnownPitExit = float()
+
+    CalculatedLocation = int()
+    lastCalculatedLocation = int()
     CalculatedLivePos = str()
+    CalculatedLiveLaps = int()
     CalculatedTimeGap = float()
+    inPits = bool()
     
     def __init__(self, compNum):
         self.number = compNum
+        self.inPits = False
+        self.color = (random.randint(0,244),random.randint(0,244),random.randint(0,244))
 
     def __repr__(self) -> str:
-        return "id:"+str(self.number)+", gps:"+str(self.lastknownGPS)+", lap:"+str(self.lastKnownLap)+", pos:"+str(self.lastKnownPos)+", speed:"+str(self.lastKnownSpeed)
+        if len(self.lastknownGPS) != 2:
+            self.lastknownGPS = (0,0)
+        # return "id:"+str(self.number)+", gps:("+str("{:.2f}".format(self.lastknownGPS[0]))+","+str("{:.2f}".format(self.lastknownGPS[1]))+"), lap:"+str(self.lastKnownLap)+", pos:"+str(self.lastKnownPos)+", calpos:"+str(self.CalculatedLivePos)+", calloc:"+str(self.CalculatedLocation)+", speed:"+str(self.lastKnownSpeed)+", timegap:"+str(self.CalculatedTimeGap)
+        return "id:"+str(self.number)+", lap:"+str(self.lastKnownLap)+"callap:"+str(self.CalculatedLiveLaps)+", pos:"+str(self.lastKnownPos)+", calpos:"+str(self.CalculatedLivePos)+", calloc:"+str(self.CalculatedLocation)
