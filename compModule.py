@@ -1,7 +1,7 @@
-import pika
+import pika, threading
 from objects.competitor import competitor
 
-class compMod:
+class compMod(threading.Thread):
     """
     The `compMod` class is responsible for receiving and processing GPS and timing data for competitors in a race.
     It manages a dictionary of competitor object, which is getting updated with the data received.
@@ -25,13 +25,20 @@ class compMod:
 
     def __init__(self) -> None:
         """
-        Constructor method that initializes the object and starts listening to the GPS and timing queues.
+        Constructor method that initializes the object and starts listening to the GPS and TIMING queues.
         """
+        threading.Thread.__init__(self)
         self.channel.basic_consume(queue=self.gpsQueueName, on_message_callback=self.callback, auto_ack=True)
         self.channel.basic_consume(queue=self.timingQueueName, on_message_callback=self.callback, auto_ack=True)
 
+    def run(self):
         print(' [*] Waiting for TIMING & GPS messages. To exit press CTRL+C')
         self.channel.start_consuming()
+
+    def get_competitor(self, id) -> competitor:
+        if id not in self.competitors:
+            return competitor(id)
+        return self.competitors[id]
 
     def callback(self, ch, method, properties, body):
         if "queue_name" in properties.headers:
@@ -66,7 +73,6 @@ class compMod:
             newCompetitor.lastKnownGforce = data['gForce']
             self.competitors[compid] = newCompetitor
 
-        print(self.competitors[compid])
 
     def TIMING_process(self, body):
         """
@@ -83,7 +89,6 @@ class compMod:
             newCompetitor.lastKnownPos = data['pos']
             self.competitors[compid] = newCompetitor
 
-        print(self.competitors[compid])
 
 
-compMod()
+#compMod()

@@ -31,7 +31,6 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
             trackChannel.queue_declare(queue='TRACK')
             trackChannel.basic_publish(exchange='', routing_key='TRACK', body=data)
         else:
-            connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', socket_timeout=None))
             competitorsChannel = connection.channel()
             competitorsChannel.queue_declare(queue='GPS')
             competitorsChannel.basic_publish(exchange='', routing_key='GPS', body=data, properties=pika.BasicProperties(headers={"queue_name": "GPS", "additional_property": "value"}))
