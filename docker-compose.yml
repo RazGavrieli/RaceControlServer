@@ -1,0 +1,73 @@
+version: "3.9"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+    - 5672:5672
+    - 15672:15672
+    networks:
+      - localnet
+    volumes:
+      - ./rabbitmq:/app
+
+  mainmodule:
+    build:
+      context: ./mainModule
+    volumes:
+      - ./mainModule:/app
+    depends_on:
+      - sensormodules
+      - webapp
+      - rabbitmq
+    #command: python3 suggestionsGenerator.py
+    networks:
+      - localnet
+    
+    restart: on-failure:10
+
+      
+  sensormodules:
+    build:
+      context: ./sensorModules
+    volumes:
+      - ./sensorModules:/app
+    #command: python gpsModule.py
+    depends_on:
+      - rabbitmq
+    networks:
+      - localnet
+    ports:
+      - 8000:8000
+    restart: on-failure:10
+
+
+  webapp:
+    build:
+      context: ./webApp
+    volumes:
+      - ./webApp:/app
+    ports:
+      - 3001:3001
+    command: npm start
+    networks:
+      - localnet
+
+  webappclient:
+    build:
+      context: ./webApp/client
+    volumes:
+      - ./webApp/client:/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - webapp
+    command: npm start
+    networks:
+      - localnet
+
+networks:
+  localnet:
+    attachable: true
+
+
