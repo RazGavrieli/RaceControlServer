@@ -5,21 +5,6 @@ import * as PIXI from 'pixi.js';
 //import './top-view-map.js'; // Import the top-view-map.js file
 
 
-class Car extends PIXI.Graphics {
-  constructor(id, color) {
-    super();
-    this.id = id;
-    this.color = color;
-    this.beginFill(color);
-    this.drawCircle(0, 0, 10);
-    this.endFill();
-  }
-
-  setPosition(X, Y) {
-    this.x = X;
-    this.y = Y;
-  }
-}
 
 class App extends React.Component {
   constructor(props) {
@@ -30,11 +15,14 @@ class App extends React.Component {
     };
 
     this.app = new PIXI.Application({
-      width: 800,
-      height: 600,
+      width: 1000,
+      height: 800,
       backgroundColor: 0x282c34,
       transparent: true
     });
+
+    this.carsNums = new PIXI.Text('', { fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center' });
+    this.app.stage.addChild(this.carsNums);
 
     this.cars = new PIXI.Graphics();
     this.app.stage.addChild(this.cars);
@@ -60,13 +48,35 @@ class App extends React.Component {
       console.log(data['track']);
 
       this.track.clear();
-      for(var key in data['track']) {
-        var value = data['track'][key];
+      for(var id in data['track']) {
+        var value = data['track'][id];
         let a = value[0]; 
         let b = value[1]; 
-        this.track.lineStyle(12, 0x000000);
+        let flag = value[2];
+        // draw black thick line
+        this.track.lineStyle(14, 0xffffff);
         this.track.moveTo(a[0], a[1]); 
         this.track.lineTo(b[0], b[1]);
+        if (flag == 0) {
+          // if no flag, draw white line
+          this.track.lineStyle(10, 0x000000);
+          this.track.moveTo(a[0], a[1]); 
+          this.track.lineTo(b[0], b[1]);
+        } else if (flag == 1) {
+          // if flag is blue
+
+          // blue thin line:
+          this.track.lineStyle(10, 0x0000ff);
+          this.track.moveTo(a[0], a[1]); 
+          this.track.lineTo(b[0], b[1]);
+        } else if (flag == 2) {
+          // if flag is yellow
+          // yellow thin line:
+          this.track.lineStyle(10, 0xffff00);
+          this.track.moveTo(a[0], a[1]); 
+          this.track.lineTo(b[0], b[1]);
+        }
+
       }
       
       //document.body.appendChild(this.app.view);
@@ -83,8 +93,15 @@ class App extends React.Component {
         var value = data['competitors'][key];
         let x = value[0]; 
         let y = value[1]; 
+
         this.cars.lineStyle(12, 0xff0000);
         this.cars.drawCircle(x, y, 10);
+
+        this.carsNums.text = key;
+        this.carsNums.x = x;
+        this.carsNums.y = y;
+
+        
         console.log(key, x, y, value)
 
       
@@ -116,13 +133,15 @@ class App extends React.Component {
           ) : (
             <ul>
               {msgs.map((message, index) => (
-                <li key={index}>{message}</li>
+                <p key={index}>{message}</p>
               ))}
             </ul>
           )}
         </header>
       </div>
+
     );
+    
   }
 }
 

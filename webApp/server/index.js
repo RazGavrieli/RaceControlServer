@@ -27,7 +27,7 @@ app.post('/api/competitors', (req, res) => {
 app.post('/api/track', (req, res) => {
   //console.log(track); // Log the message from the request body
   res.status(200).send('Message received');
-  track[req.body['id']] = [req.body['a'], req.body['b']];
+  track[req.body['id']] = [req.body['a'], req.body['b'], req.body['flag']];
 //  res.json({ message: "Hello from server!" });
 });
 

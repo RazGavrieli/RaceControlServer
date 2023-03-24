@@ -149,7 +149,7 @@ def pits_monitor():
 
 def print_results():
     """
-    This function prints the results of the calculations.
+    This function prints the results of the calculations, used for debugging purposes
     """
     while True:
         time.sleep(0.25)
@@ -163,11 +163,11 @@ def print_results():
         #print(track.RaceTrack)
 
 
-def send_line(id, a, b):
+def send_line(id, a, b, flag):
     http_url = 'http://webapp:3001/api/track'
     headers = {'Content-type': 'application/json'}
     try:
-        requests.post(http_url, data=json.dumps({'id': id, 'a': a, 'b': b}), headers=headers, stream=True)
+        requests.post(http_url, data=json.dumps({'id': id, 'a': a, 'b': b, 'flag': flag}), headers=headers, stream=True)
     except Exception as e:
         print(e)
 
@@ -241,17 +241,17 @@ def draw_track():
         for i in range(len(track.get_racetrack())):
             if i == len(track.get_racetrack())-1:
                 # pygame.draw.line(screen, (60, 0, 0), normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[0]), 2)
-                send_line(i, normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[0]))
+                send_line(i, normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[0]), 0)
             else:
                 # pygame.draw.line(screen, (170, 0, 0), normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[i+1]), 2)
-                send_line(i, normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[i+1]))
+                send_line(i, normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[i+1]), 0)
 
-        # for leadingComp, trafficComp in blues:
-            # for checkpoint in range(comps.get_competitor(leadingComp).CalculatedLocation, comps.get_competitor(trafficComp).CalculatedLocation):
-                # pygame.draw.line(screen, (0, 0, 255), normalize_point(track.get_racetrack()[checkpoint]), normalize_point(track.get_racetrack()[checkpoint+1]), 2)
-            #pygame.draw.line(screen, (0, 0, 255), normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[(i+1)%len(track.get_racetrack())]), 2)
-        # for i in yellows:
-            # pygame.draw.line(screen, (255, 255, 0), normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[(i+1)%len(track.get_racetrack())]), 2)
+        for leadingComp, trafficComp in blues:
+            for checkpoint in range(comps.get_competitor(leadingComp).CalculatedLocation, comps.get_competitor(trafficComp).CalculatedLocation):  
+                send_line(checkpoint, normalize_point(track.get_racetrack()[checkpoint]), normalize_point(track.get_racetrack()[checkpoint+1]), 1)
+
+        for i in yellows:
+            send_line(i, normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[(i+1)%len(track.get_racetrack())]), 2)
         # Draw the competitors
         for compk in comps.competitors.keys():
             comp = comps.get_competitor(str(compk))
@@ -299,7 +299,7 @@ if __name__ == "__main__":
     live_position_calculator_thread = threading.Thread(target=live_position_calculator)
     live_laps_calculator_thread = threading.Thread(target=live_laps_calculator)
     pits_monitor_thread = threading.Thread(target=pits_monitor)
-    print_results_thread = threading.Thread(target=print_results)
+    #print_results_thread = threading.Thread(target=print_results)
     publish_calculations_thread = threading.Thread(target=publish_calculations)
 
     yellow_flags_thread.start()
@@ -308,7 +308,7 @@ if __name__ == "__main__":
     live_position_calculator_thread.start()
     live_laps_calculator_thread.start()
     pits_monitor_thread.start()
-    print_results_thread.start()
+    #print_results_thread.start()
     publish_calculations_thread.start()
 
     #publish_calculations_thread.join()
