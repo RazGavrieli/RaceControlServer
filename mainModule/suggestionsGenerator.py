@@ -27,7 +27,6 @@ yellows = []
 
 def suggestion_raise(suggestion):
     # this function raises a suggestion to the server.
-    # It sends the json through the rabbitMQ server.
     if suggestion not in suggestions:
         suggestions.append(suggestion)
 

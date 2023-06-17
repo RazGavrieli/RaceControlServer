@@ -16,7 +16,7 @@ trap handle_error ERR
 
 # Run the Python scripts in the background
 python gpsModule.py &
-python timingmodule.py $1 &
+python timingModule.py $1 &
 #python script3.py &
 
 # Wait for any child process to exit and check its exit status
