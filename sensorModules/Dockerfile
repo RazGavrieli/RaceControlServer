@@ -12,4 +12,4 @@ COPY launch_sensors.sh .
 COPY gpsModule.py .
 COPY timingModule.py .
 
-CMD ["./launch_sensors.sh", "f"]
+CMD ["./launch_sensors.sh", "https://speedhive.mylaps.com/LiveTiming/35CE0CF09C206533-2147483761/Active"]
