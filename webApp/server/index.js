@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3001;
 
 // Parse incoming JSON requests
 app.use(express.json());
-const messages = ["Hello World!", "How are you?", "I'm doing great!"];
+const messages = ["RACE CONTROL NOTIFICATIONS:"];
 const track = {};
 const competitors = {};
 

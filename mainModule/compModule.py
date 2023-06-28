@@ -66,6 +66,7 @@ class compMod(threading.Thread):
             self.competitors[compid].lastknownGPS = (data['latitude'], data['longitude'])
             self.competitors[compid].lastKnownSpeed = data['speed']
             self.competitors[compid].lastKnownGforce = data['gForce']
+            print("got gps data:", data['latitude'], data['longitude'], data['id'])
         else:
             newCompetitor = competitor(compid)
             newCompetitor.lastknownGPS = (data['latitude'], data['longitude'])
@@ -83,6 +84,7 @@ class compMod(threading.Thread):
         if compid in self.competitors:
             self.competitors[compid].lastKnownLap = data['laps']
             self.competitors[compid].lastKnownPos = data['pos']
+            print("got timing data:", data['laps'], data['pos'], data['id'])
         else:
             newCompetitor = competitor(compid)
             newCompetitor.lastKnownLap = data['laps']

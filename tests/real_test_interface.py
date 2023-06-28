@@ -1,7 +1,7 @@
 import pika
 import time
 
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost', socket_timeout=None))
+connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()
 channel.queue_declare(queue='TIMING')
 comps = {}
