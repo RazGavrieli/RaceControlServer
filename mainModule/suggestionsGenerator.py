@@ -237,6 +237,7 @@ def draw_track():
         # # Fill the screen with a gray background color
         # screen.fill((128, 128, 128))
         # # Draw the track
+        print("drawing track:", track.get_racetrack())
         for i in range(len(track.get_racetrack())):
             if i == len(track.get_racetrack())-1:
                 # pygame.draw.line(screen, (60, 0, 0), normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[0]), 2)
