@@ -30,7 +30,6 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
             trackChannel = connection.channel()
             trackChannel.queue_declare(queue='TRACK')
             trackChannel.basic_publish(exchange='', routing_key='TRACK', body=data)
-            print("send TRACK data: " + str(data))
         else:
             competitorsChannel = connection.channel()
             competitorsChannel.queue_declare(queue='GPS')

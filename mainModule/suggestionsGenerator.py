@@ -210,6 +210,7 @@ def draw_track():
                 min_y = track.get_racetrack()[i][1]
         # Normalize the points
         if max_x-min_x == 0 or max_y-min_y == 0:
+            print("Error: max_x-min_x or max_y-min_y is 0: ", max_x, min_x, max_y, min_y,"\n racetrack: ", track.get_racetrack())
             return (0, 0)
         x = int((point[0]-min_x)*(800/(max_x-min_x)))
         y = int((point[1]-min_y)*(600/(max_y-min_y)))
@@ -237,7 +238,6 @@ def draw_track():
         # # Fill the screen with a gray background color
         # screen.fill((128, 128, 128))
         # # Draw the track
-        print("drawing track:", track.get_racetrack())
         for i in range(len(track.get_racetrack())):
             if i == len(track.get_racetrack())-1:
                 # pygame.draw.line(screen, (60, 0, 0), normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[0]), 2)
