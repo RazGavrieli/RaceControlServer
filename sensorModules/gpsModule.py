@@ -30,12 +30,12 @@ class RequestHandler(http.server.BaseHTTPRequestHandler):
             trackChannel = connection.channel()
             trackChannel.queue_declare(queue='TRACK')
             trackChannel.basic_publish(exchange='', routing_key='TRACK', body=data)
+            print("send TRACK data: " + str(data))
         else:
             competitorsChannel = connection.channel()
             competitorsChannel.queue_declare(queue='GPS')
             competitorsChannel.basic_publish(exchange='', routing_key='GPS', body=data, properties=pika.BasicProperties(headers={"queue_name": "GPS", "additional_property": "value"}))
 
-        print(" [x] Sent %r" % data)
         # Send a response back to the client
         self.send_response(200)
         self.send_header('Content-type', 'text/plain')
