@@ -214,10 +214,10 @@ def draw_track():
             return (0, 0)
         x = int((point[0]-min_x)*(800/(max_x-min_x)))
         y = int((point[1]-min_y)*(600/(max_y-min_y)))
-
-        
+        packaged_point = (-x+800, y)
+        print("sending: ", packaged_point)
         #print(x, y)
-        return (-x+800, y)
+        return packaged_point
 
     while True:
         # for event in pygame.event.get():
@@ -243,7 +243,7 @@ def draw_track():
             for checkpoint in range(comps.get_competitor(leadingComp).CalculatedLocation, comps.get_competitor(trafficComp).CalculatedLocation):  
                 send_line(checkpoint, normalize_point(track.get_racetrack()[checkpoint]), normalize_point(track.get_racetrack()[checkpoint+1]), 1)
                 drawnCheckpoints.append(checkpoint)
-                
+
         for i in range(len(track.get_racetrack())):
             if i in drawnCheckpoints:
                 continue
@@ -315,7 +315,7 @@ if __name__ == "__main__":
     pits_monitor_thread.start()
     #print_results_thread.start()
     publish_calculations_thread.start()
-
+    print("Threads started")
     #publish_calculations_thread.join()
     draw_track() # pygame
  
