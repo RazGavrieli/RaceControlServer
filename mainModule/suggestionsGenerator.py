@@ -238,7 +238,15 @@ def draw_track():
         # # Fill the screen with a gray background color
         # screen.fill((128, 128, 128))
         # # Draw the track
+        drawnCheckpoints = []
+        for leadingComp, trafficComp in blues:
+            for checkpoint in range(comps.get_competitor(leadingComp).CalculatedLocation, comps.get_competitor(trafficComp).CalculatedLocation):  
+                send_line(checkpoint, normalize_point(track.get_racetrack()[checkpoint]), normalize_point(track.get_racetrack()[checkpoint+1]), 1)
+                drawnCheckpoints.append(checkpoint)
+                
         for i in range(len(track.get_racetrack())):
+            if i in drawnCheckpoints:
+                continue
             if i == len(track.get_racetrack())-1:
                 # pygame.draw.line(screen, (60, 0, 0), normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[0]), 2)
                 send_line(i, normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[0]), 0)
@@ -246,10 +254,7 @@ def draw_track():
                 # pygame.draw.line(screen, (170, 0, 0), normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[i+1]), 2)
                 send_line(i, normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[i+1]), 0)
 
-        for leadingComp, trafficComp in blues:
-            for checkpoint in range(comps.get_competitor(leadingComp).CalculatedLocation, comps.get_competitor(trafficComp).CalculatedLocation):  
-                send_line(checkpoint, normalize_point(track.get_racetrack()[checkpoint]), normalize_point(track.get_racetrack()[checkpoint+1]), 1)
-
+     
         for i in yellows:
             send_line(i, normalize_point(track.get_racetrack()[i]), normalize_point(track.get_racetrack()[(i+1)%len(track.get_racetrack())]), 2)
         # Draw the competitors
