@@ -15,8 +15,8 @@ echo "launching sensor modules!"
 trap handle_error ERR
 
 # Run the Python scripts in the background
-python gpsModule.py &
-python timingModule.py $1 &
+python gpsModule.py > gpsModule.log &
+python timingModule.py $1 > timingModule.log &
 #python script3.py &
 
 # Wait for any child process to exit and check its exit status
