@@ -199,7 +199,7 @@ def draw_track():
         min_y = 1000
         for i in range(len(track.get_racetrack())):
             if track.get_racetrack()[i] == (0, 0):
-                return (0, 0)
+                continue
             if track.get_racetrack()[i][0] > max_x:
                 max_x = track.get_racetrack()[i][0]
             if track.get_racetrack()[i][0] < min_x:
