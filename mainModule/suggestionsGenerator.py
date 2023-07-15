@@ -192,6 +192,7 @@ def draw_track():
         The problem is that the points are in a very small range, so the screen is too small to fit the points.
         So this function returns a tuple of points in range [0, 800] and [0, 600], and the points will be scattered on this screen to fit the entire screen
         To do that, we need to find the maximum and minimum values of x and y, and then we need to normalize the points to fit the screen."""
+        print("point is ", point)
         # Find the maximum and minimum values of x and y
         max_x = 0
         min_x = 1000
@@ -199,7 +200,6 @@ def draw_track():
         min_y = 1000
         for i in range(len(track.get_racetrack())):
             if track.get_racetrack()[i] == (0, 0):
-                print("i is 0,0")
                 return (0, 0)
             if track.get_racetrack()[i][0] > max_x:
                 max_x = track.get_racetrack()[i][0]
