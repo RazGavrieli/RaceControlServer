@@ -192,7 +192,6 @@ def draw_track():
         The problem is that the points are in a very small range, so the screen is too small to fit the points.
         So this function returns a tuple of points in range [0, 800] and [0, 600], and the points will be scattered on this screen to fit the entire screen
         To do that, we need to find the maximum and minimum values of x and y, and then we need to normalize the points to fit the screen."""
-        print("point is ", point)
         # Find the maximum and minimum values of x and y
         max_x = 0
         min_x = 1000
@@ -212,13 +211,16 @@ def draw_track():
         # Normalize the points
         if max_x-min_x == 0 or max_y-min_y == 0:
             print("Error: max_x-min_x or max_y-min_y is 0: ", max_x, min_x, max_y, min_y,"\n racetrack: ", track.get_racetrack())
-            return (0, 0)
-        x = int((point[0]-min_x)*(800/(max_x-min_x)))
-        y = int((point[1]-min_y)*(600/(max_y-min_y)))
-        packaged_point = (-x+800, y)
-        print("sending: ", packaged_point)
-        #print(x, y)
+            x = int((point[0] - min_x) * 800)
+            y = int((point[1] - min_y) * 600)
+            packaged_point = (-x+800, y)
+        else:
+            x = int((point[0]-min_x)*(800/(max_x-min_x)))
+            y = int((point[1]-min_y)*(600/(max_y-min_y)))
+            packaged_point = (-x+800, y)
+        print("point: ", point, "packaged_point: ", packaged_point)
         return packaged_point
+
 
     while True:
         # for event in pygame.event.get():
