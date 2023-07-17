@@ -210,7 +210,6 @@ def draw_track():
                 min_y = track.get_racetrack()[i][1]
         # Normalize the points
         if max_x-min_x == 0 or max_y-min_y == 0:
-            print("Error: max_x-min_x or max_y-min_y is 0: ", max_x, min_x, max_y, min_y,"\n racetrack: ", track.get_racetrack())
             x = int((point[0] - min_x) * 800)
             y = int((point[1] - min_y) * 600)
             packaged_point = (-x+800, y)
