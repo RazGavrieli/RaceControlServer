@@ -218,7 +218,6 @@ def draw_track():
             x = int((point[0]-min_x)*(800/(max_x-min_x)))
             y = int((point[1]-min_y)*(600/(max_y-min_y)))
             packaged_point = (-x+800, y)
-        print("point: ", point, "packaged_point: ", packaged_point)
         return packaged_point
 
 
