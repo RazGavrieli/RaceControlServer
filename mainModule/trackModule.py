@@ -51,6 +51,8 @@ class trackMod(threading.Thread):
         """
         data = eval(body.decode())
         if data['id'] == TrackCommand.CREATE_TRACK.value:
+            if data['latitude'] == 0 or data['longitude'] == 0:
+                return
             print("adding point: ", data['latitude'], data['longitude'])
             self.RaceTrack.trackList.append((data['latitude'], data['longitude']))
         elif data['id'] == TrackCommand.SET_SECTOR.value:
